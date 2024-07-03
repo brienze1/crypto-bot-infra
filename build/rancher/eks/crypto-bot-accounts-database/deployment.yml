@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crypto-bot-accounts-database
+  namespace: crypto-bot-database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crypto-bot-accounts-database
+  template:
+    metadata:
+      labels:
+        app: crypto-bot-accounts-database
+    spec:
+      containers:
+        - name: crypto-bot-accounts-database
+          image: postgres:16
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: crypto-bot-accounts-database
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-data
+            - mountPath: /docker-entrypoint-initdb.d
+              name: db-scripts
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: crypto-bot-accounts-database
+        - name: db-scripts
+          configMap:
+            name: accounts-db-scripts-configmap

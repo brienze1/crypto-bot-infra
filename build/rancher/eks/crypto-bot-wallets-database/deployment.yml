@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crypto-bot-wallets-database
+  namespace: crypto-bot-database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crypto-bot-wallets-database
+  template:
+    metadata:
+      labels:
+        app: crypto-bot-wallets-database
+    spec:
+      containers:
+        - name: crypto-bot-wallets-database
+          image: postgres:16
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: crypto-bot-wallets-database
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-data
+            - mountPath: /docker-entrypoint-initdb.d
+              name: db-scripts
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: crypto-bot-wallets-database
+        - name: db-scripts
+          configMap:
+            name: wallets-db-scripts-configmap

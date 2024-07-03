@@ -1,0 +1,109 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wallets-db-scripts-configmap
+  namespace: crypto-bot-database
+  labels:
+    app: crypto-bot-wallets-database
+data:
+  0_00_create_schema_wallet.sql: |
+    CREATE SCHEMA IF NOT EXISTS wallet;
+  1_00_create_pgcrypto_extension.sql: |
+    SET SCHEMA 'wallet';
+    
+    DROP EXTENSION IF EXISTS pgcrypto;
+    CREATE EXTENSION IF NOT EXISTS pgcrypto with schema wallet;
+  1_01_create_uuid_extension.sql: |
+    SET SCHEMA 'wallet';
+    
+    DROP EXTENSION IF EXISTS "uuid-ossp";
+    CREATE EXTENSION IF NOT EXISTS "uuid-ossp" with schema wallet;
+  2_00_create_table_wallet_info.sql: |
+    SET SCHEMA 'wallet';
+
+    CREATE TABLE wallet_info
+    (
+        id         uuid        NOT NULL DEFAULT uuid_generate_v4(),
+        account_id uuid        NOT NULL,
+        name       varchar     NOT NULL,
+        provider   varchar     NOT NULL,
+        created_at timestamptz NOT NULL DEFAULT NOW(),
+        updated_at timestamptz NOT NULL DEFAULT NOW(),
+        CONSTRAINT wallet_info_pkey PRIMARY KEY (id)
+    );
+  2_01_create_table_sub_wallet.sql: |
+    SET SCHEMA 'wallet';
+
+    CREATE TABLE sub_wallet
+    (
+        id                uuid           NOT NULL DEFAULT uuid_generate_v4(),
+        account_id        uuid           NOT NULL,
+        wallet_id         uuid           NOT NULL,
+        currency          varchar(5)     NOT NULL,
+        total_balance     numeric(19, 8) NOT NULL,
+        available_balance numeric(19, 8) NOT NULL,
+        created_at        timestamptz    NOT NULL DEFAULT NOW(),
+        updated_at        timestamptz    NOT NULL DEFAULT NOW(),
+        CONSTRAINT sub_wallet_pkey PRIMARY KEY (id),
+        CONSTRAINT sub_wallet_wallet_id_fkey FOREIGN KEY (wallet_id) REFERENCES wallet.wallet_info (id)
+    );
+  2_02_create_table_partition.sql: |
+    SET SCHEMA 'wallet';
+            
+    CREATE TABLE partition
+    (
+        id               uuid           NOT NULL DEFAULT uuid_generate_v4(),
+        account_id       uuid           NOT NULL,
+        sub_partition_id uuid NULL,
+        sub_wallet_id    uuid           NOT NULL,
+        bot_id           uuid           NOT NULL,
+        balance          numeric(19, 8) NOT NULL,
+        base             varchar(5)     NOT NULL,
+        quote            varchar(5)     NOT NULL,
+        created_at       timestamptz    NOT NULL DEFAULT NOW(),
+        updated_at       timestamptz    NOT NULL DEFAULT NOW(),
+        deleted_at       timestamptz NULL,
+        CONSTRAINT partition_pkey PRIMARY KEY (id),
+        CONSTRAINT partition_sub_partition_id_fkey FOREIGN KEY (sub_partition_id) REFERENCES wallet.partition (id),
+        CONSTRAINT partition_sub_wallet_id_fkey FOREIGN KEY (sub_wallet_id) REFERENCES wallet.sub_wallet (id)
+    );
+  2_03_create_table_transaction.sql: |
+    SET SCHEMA 'wallet';
+            
+    CREATE TABLE transaction
+    (
+        id               uuid           NOT NULL DEFAULT uuid_generate_v4(),
+        account_id       uuid           NOT NULL,
+        sub_wallet_id    uuid           NOT NULL,
+        partition_id     uuid           NOT NULL,
+        bot_id           uuid           NOT NULL,
+        type             varchar        NOT NULL,
+        base             varchar        NOT NULL,
+        quote            varchar        NOT NULL,
+        status           varchar        NOT NULL,
+        base_amount      numeric(19, 8) NOT NULL,
+        quote_amount     numeric(19, 8) NULL,
+        base_unit_price  numeric(19, 8) NULL,
+        quote_unit_price numeric(19, 8) NULL,
+        base_fee         numeric(19, 8) NULL,
+        quote_fee        numeric(19, 8) NULL,
+        date             varchar        NOT NULL,
+        created_at       timestamptz    NOT NULL DEFAULT NOW(),
+        updated_at       timestamptz    NOT NULL DEFAULT NOW(),
+        CONSTRAINT transaction_pkey PRIMARY KEY (id),
+        CONSTRAINT transaction_sub_wallet_id_fkey FOREIGN KEY (sub_wallet_id) REFERENCES wallet.sub_wallet (id),
+        CONSTRAINT transaction_partition_id_fkey FOREIGN KEY (partition_id) REFERENCES wallet.partition (id)
+    );
+  2_04_create_table_encryption_key.sql: |
+    SET SCHEMA 'wallet';
+        
+    CREATE TABLE encryption_key
+    (
+        id         uuid        NOT NULL DEFAULT uuid_generate_v4(),
+        secret     varchar     NOT NULL,
+        created_at timestamptz NOT NULL DEFAULT NOW(),
+        CONSTRAINT encryption_key_pkey PRIMARY KEY (id)
+    );
+    
+    INSERT INTO encryption_key (secret)
+    VALUES (gen_random_bytes(15));

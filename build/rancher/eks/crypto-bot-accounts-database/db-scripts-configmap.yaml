@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: accounts-db-scripts-configmap
+  namespace: crypto-bot-database
+  labels:
+    app: crypto-bot-accounts-database
+data:
+  0_00_create_schema_account.sql: |
+    CREATE SCHEMA IF NOT EXISTS account;
+  1_00_create_pgcrypto_extension.sql: |
+    SET SCHEMA 'account';
+        
+    DROP EXTENSION IF EXISTS pgcrypto;
+    CREATE EXTENSION IF NOT EXISTS pgcrypto with schema account;
+  1_01_create_uuid_extension.sql: |
+    SET SCHEMA 'account';
+        
+    DROP EXTENSION IF EXISTS "uuid-ossp";
+    CREATE EXTENSION IF NOT EXISTS "uuid-ossp" with schema account;
+  2_00_create_table_account_info.sql: |
+    SET SCHEMA 'account';
+
+    CREATE TABLE account_info
+    (
+        id         uuid        NOT NULL DEFAULT uuid_generate_v4(),
+        name       varchar     NOT NULL,
+        email      varchar     NOT NULL,
+        password   varchar     NOT NULL,
+        role       varchar     NOT NULL,
+        created_at timestamptz NOT NULL DEFAULT NOW(),
+        updated_at timestamptz NOT NULL DEFAULT NOW(),
+        CONSTRAINT accounts_info_pkey PRIMARY KEY (id)
+    );
+  2_01_create_table_session.sql: |
+    SET SCHEMA 'account';
+
+    CREATE TABLE session
+    (
+        id           uuid        NOT NULL DEFAULT uuid_generate_v4(),
+        account_id   uuid        NOT NULL,
+        client_ip    varchar     NOT NULL,
+        access_token varchar     NOT NULL,
+        expires_at   BIGINT      NOT NULL,
+        issued_at    BIGINT      NOT NULL,
+        created_at   timestamptz NOT NULL DEFAULT NOW(),
+        updated_at   timestamptz NOT NULL DEFAULT NOW(),
+        CONSTRAINT session_pkey PRIMARY KEY (id),
+        CONSTRAINT session_account_id_fkey FOREIGN KEY (account_id) REFERENCES account.account_info (id)
+    );
+  2_02_create_table_encryption_key.sql: |
+    SET SCHEMA 'account';
+
+    CREATE TABLE encryption_key
+    (
+        id         uuid        NOT NULL DEFAULT uuid_generate_v4(),
+        secret     varchar     NOT NULL,
+        created_at timestamptz NOT NULL DEFAULT NOW(),
+        CONSTRAINT encryption_key_pkey PRIMARY KEY (id)
+    );
+    
+    INSERT INTO encryption_key (secret)
+    VALUES (gen_random_bytes(15));

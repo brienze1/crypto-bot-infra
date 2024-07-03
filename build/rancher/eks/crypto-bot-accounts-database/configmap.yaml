@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: crypto-bot-accounts-database
+  namespace: crypto-bot-database
+  labels:
+    app: crypto-bot-accounts-database
+data:
+  POSTGRES_DB: 'crypto_bot_accounts'
+  POSTGRES_USER: 'crypto_bot_accounts_user'
+  POSTGRES_PASSWORD: 'crypto_bot_accounts_pass'

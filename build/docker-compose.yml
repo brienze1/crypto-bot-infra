@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+
+  rancher:
+    container_name: rancher
+    image: rancher/rancher:v2.8.5
+    privileged: true
+    restart: unless-stopped
+    environment:
+      CATTLE_BOOTSTRAP_PASSWORD: password
+    ports:
+      - "443:443"
+      - "80:80"
+      - "8585:30000"
+      - "6379:30011"
+      - "5432:30020"
+      - "5433:30021"
+      - "5434:30022"
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: '8G'
+        reservations:
+          cpus: '1'
+          memory: '4G'
+
+  rancher-cli:
+    depends_on:
+      - rancher
+    container_name: rancher-cli
+    build:
+      dockerfile: ./rancher/rancher-arm.Dockerfile
+    image: lfbrienze/rancher-cli
+    volumes:
+      - ./rancher/entrypoint.sh:/init-scripts/rancher-cli/entrypoint.sh
+      - ./rancher/eks:/init-scripts/rancher-cli/eks
+    entrypoint: >
+      sh -c "sh /init-scripts/rancher-cli/entrypoint.sh"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: '128M'

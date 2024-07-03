@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: crypto-bot-wallets-database
+  namespace: crypto-bot-database
+  labels:
+    app: crypto-bot-wallets-database
+data:
+  POSTGRES_DB: 'crypto_bot_wallets'
+  POSTGRES_USER: 'crypto_bot_wallets_user'
+  POSTGRES_PASSWORD: 'crypto_bot_wallets_pass'

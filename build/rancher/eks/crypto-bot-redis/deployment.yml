@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crypto-bot-redis
+  namespace: crypto-bot-database
+  labels:
+    app: crypto-bot-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crypto-bot-redis
+  template:
+    metadata:
+      labels:
+        app: crypto-bot-redis
+    spec:
+      containers:
+        - name: crypto-bot-redis
+          image: redis:5 #todo: change to latest
+          command: ["redis-server"]
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: redis-data
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: crypto-bot-redis
