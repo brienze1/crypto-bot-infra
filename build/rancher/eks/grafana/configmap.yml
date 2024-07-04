@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana
+  namespace: monitoring
+  labels:
+    app: grafana
+    service: grafana
+data:
+  GF_SECURITY_ADMIN_USER: 'admin'
+  GF_SECURITY_ADMIN_PASSWORD: 'grafana'

@@ -1,16 +1,16 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: crypto-bot-accounts-api
-  namespace: crypto-bot-accounts
+  name: crypto-bot-wallets-api
+  namespace: crypto-bot-wallets
   labels:
-    app: crypto-bot-accounts-api
+    app: crypto-bot-wallets-api
     service: crypto-bot
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: crypto-bot-accounts-api
+    name: crypto-bot-wallets-api
   minReplicas: 1
   maxReplicas: 4
   metrics:

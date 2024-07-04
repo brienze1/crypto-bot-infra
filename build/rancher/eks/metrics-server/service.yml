@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    k8s-app: metrics-server
+  name: metrics-server
+  namespace: kube-system
+spec:
+  ports:
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: https
+  selector:
+    k8s-app: metrics-server
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: metrics-server-expose
+  namespace: kube-system
+  labels:
+    app: metrics-server
+    service: metrics-server
+spec:
+  type: NodePort
+  selector:
+    k8s-app: metrics-server
+  ports:
+    - port: 10250
+      targetPort: 10250
+      nodePort: 30030

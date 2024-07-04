@@ -16,10 +16,23 @@ echo "########### Authenticating rancher ###########"
 rancher login https://rancher/v3 --token "$TOKEN" --skip-verify
 sleep 5
 
-echo "########### Deploying metrics server ###########"
-rancher kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml --server https://rancher
+echo "########### Deploying local path storage ###########"
+rancher kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml --server https://rancher
+rancher kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}' --server https://rancher
 
-#TODO fix this
+echo "########### Deploying metrics server ###########"
+rancher kubectl create -f /init-scripts/rancher-cli/eks/metrics-server --server https://rancher
+rancher kubectl create clusterrolebinding cluster-system-anonymous --clusterrole=cluster-admin --user=system:anonymous --server https://rancher
+
+echo "########### Deploying kube-state-metrics server ###########"
+rancher kubectl create -f /init-scripts/rancher-cli/eks/kube-state-metrics --server https://rancher
+
+echo "########### Deploying prometheus server ###########"
+rancher kubectl create -f /init-scripts/rancher-cli/eks/prometheus --server https://rancher
+
+echo "########### Deploying grafana server ###########"
+rancher kubectl create -f /init-scripts/rancher-cli/eks/grafana --server https://rancher
+
 echo "########### Deploying accounts db on rancher ###########"
 rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-accounts-database --server https://rancher
 
@@ -29,5 +42,8 @@ rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-wallets-datab
 echo "########### Deploying redis on rancher ###########"
 rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-redis --server https://rancher
 
-echo "########### Deploying apis on rancher ###########"
+echo "########### Deploying accounts api on rancher ###########"
 rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-accounts --server https://rancher
+
+echo "########### Deploying wallets api on rancher ###########"
+rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-wallets --server https://rancher

@@ -3,6 +3,9 @@ kind: Service
 metadata:
   name: crypto-bot-accounts-database
   namespace: crypto-bot-database
+  labels:
+    app: crypto-bot-accounts-database
+    service: crypto-bot
 spec:
   type: NodePort
   selector:

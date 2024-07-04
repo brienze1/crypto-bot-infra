@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: crypto-bot-wallets-api
+  namespace: crypto-bot-wallets
+  labels:
+    app: crypto-bot-wallets-api
+    service: crypto-bot
+data:
+  # ===================== General =====================
+  ENV: 'prd'
+  LOG_LEVEL: 'debug'
+  SERVER_PORT: '8080'
+
+  # ================= Logs Config =================
+  SERVICE_NAME: 'crypto-bot-wallets-api'
+
+  # =================== Datasource ===================
+  # Postgres - crypto_bot_wallets
+  DB_HOST: 'crypto-bot-wallets-database.crypto-bot-database.svc.cluster.local'
+  DB_PORT: '5432'
+  DB_NAME: 'crypto_bot_wallets'
+  DB_USERNAME: 'crypto_bot_wallets_user'
+  DB_PASSWORD: 'crypto_bot_wallets_pass'
+  DB_SSL_MODE: 'disable'
+  DB_LOG_LEVEL: 'error'
+
+  # Redis
+  REDIS_HOST: 'crypto-bot-redis.crypto-bot-database.svc.cluster.local'
+  REDIS_PORT: '6379'
+
+  # ==================== Services ====================
+  AUTHORIZATION_WEB_SERVICE_URL: 'http://crypto-bot-accounts-api.crypto-bot-accounts.svc.cluster.local:8080/v1/authorize'
+  
+  # Binance
+  BINANCE_TRANSFERS_HISTORICAL_DATA_URL: 'https://api.binance.com/api/v3/aggTrades'
+  BINANCE_COMMISSION_PERCENTAGE: '0.001'
+
+
+
+

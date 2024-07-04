@@ -4,3 +4,4 @@ metadata:
   name: crypto-bot-database
   labels:
     name: crypto-bot-database
+    service: crypto-bot

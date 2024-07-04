@@ -5,15 +5,18 @@ metadata:
   namespace: crypto-bot-database
   labels:
     app: crypto-bot-redis
+    service: crypto-bot
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: crypto-bot-redis
+      service: crypto-bot
   template:
     metadata:
       labels:
         app: crypto-bot-redis
+        service: crypto-bot
     spec:
       containers:
         - name: crypto-bot-redis
@@ -24,6 +27,13 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: redis-data
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "250m"
       volumes:
         - name: redis-data
           persistentVolumeClaim:

@@ -5,6 +5,7 @@ metadata:
   namespace: crypto-bot-database
   labels:
     app: crypto-bot-accounts-database
+    service: crypto-bot
 data:
   0_00_create_schema_account.sql: |
     CREATE SCHEMA IF NOT EXISTS account;

@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: crypto-bot-accounts-api
+  name: crypto-bot-accounts
   labels:
-    name: crypto-bot-accounts-api
+    name: crypto-bot-accounts
+    service: crypto-bot

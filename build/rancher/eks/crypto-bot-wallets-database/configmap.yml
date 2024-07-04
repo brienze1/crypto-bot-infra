@@ -5,6 +5,7 @@ metadata:
   namespace: crypto-bot-database
   labels:
     app: crypto-bot-wallets-database
+    service: crypto-bot
 data:
   POSTGRES_DB: 'crypto_bot_wallets'
   POSTGRES_USER: 'crypto_bot_wallets_user'

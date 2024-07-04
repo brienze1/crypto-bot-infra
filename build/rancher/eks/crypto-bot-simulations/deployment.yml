@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: crypto-bot-accounts-api
-  namespace: crypto-bot-accounts
+  name: crypto-bot-simulations-api
+  namespace: crypto-bot-simulations
   labels:
-    app: crypto-bot-accounts-api
+    app: crypto-bot-simulations-api
     service: crypto-bot
 spec:
   selector:
     matchLabels:
-      app: crypto-bot-accounts-api
+      app: crypto-bot-simulations-api
       service: crypto-bot
   replicas: 1
   template:
     metadata:
       labels:
-        app: crypto-bot-accounts-api
+        app: crypto-bot-simulations-api
         service: crypto-bot
     spec:
       containers:
-        - name: crypto-bot-accounts-api
-          image: lfbrienze/crypto-bot-accounts:v1
+        - name: crypto-bot-simulations-api
+          image: lfbrienze/crypto-bot-simulations:v1
           imagePullPolicy: Always
           ports:
             - name: http
@@ -46,7 +46,7 @@ spec:
             successThreshold: 1
           envFrom:
             - configMapRef:
-                name: crypto-bot-accounts-api
+                name: crypto-bot-simulations-api
           resources:
             requests:
               memory: "128Mi"

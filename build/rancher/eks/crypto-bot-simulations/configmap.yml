@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: crypto-bot-simulations-api
+  namespace: crypto-bot-simulations
+  labels:
+    app: crypto-bot-simulations-api
+    service: crypto-bot
+data:
+  # ===================== General =====================
+  ENV: 'prd'
+  LOG_LEVEL: 'debug'
+  SERVER_PORT: '8080'
+
+  # ================= Logs Config =================
+  SERVICE_NAME: 'crypto-bot-simulations-api'
+
+  # =================== Datasource ===================
+  # Postgres - crypto_bot_simulations
+  DB_HOST: 'crypto-bot-simulations-database.crypto-bot-database.svc.cluster.local'
+  DB_PORT: '5432'
+  DB_NAME: 'crypto_bot_simulations'
+  DB_USERNAME: 'crypto_bot_simulations_user'
+  DB_PASSWORD: 'crypto_bot_simulations_pass'
+  DB_SSL_MODE: 'disable'
+  DB_LOG_LEVEL: 'error'
+
+  # Redis
+  REDIS_HOST: 'crypto-bot-redis.crypto-bot-database.svc.cluster.local'
+  REDIS_PORT: '6379'
+
+  # ==================== Simulation ====================
+  BINANCE_COMMISSION_PERCENTAGE: '0.001'
+
+  # ==================== Services ====================
+  BINANCE_KLINE_HISTORICAL_DATA_URL: 'https://api.binance.com/api/v3/klines'
+  BINANCE_TRANSFERS_HISTORICAL_DATA_URL: 'https://api.binance.com/api/v3/aggTrades'
+
+  AUTHORIZATION_WEB_SERVICE_URL: 'http://crypto-bot-accounts-api.crypto-bot-accounts.svc.cluster.local:8080/v1/authorize'
+  GET_PARTITION_BY_BOT_ID_WEB_SERVICE_URL: 'http://crypto-bot-wallets-api.crypto-bot-wallets.svc.cluster.local:8080/v1/partitions/bot/%s'
+  GET_PARTITION_WEB_SERVICE_URL: 'http://crypto-bot-wallets-api.crypto-bot-wallets.svc.cluster.local:8080/v1/partitions/%s'
+  CREATE_PARTITION_WEB_SERVICE_URL: 'http://crypto-bot-wallets-api.crypto-bot-wallets.svc.cluster.local:8080/v1/wallets/%s/partitions'
+  DELETE_PARTITION_WEB_SERVICE_URL: 'http://crypto-bot-wallets-api.crypto-bot-wallets.svc.cluster.local:8080/v1/partitions/%s'
+  CREATE_TRANSACTION_WEB_SERVICE_URL: 'http://crypto-bot-wallets-api.crypto-bot-wallets.svc.cluster.local:8080/v1/partitions/%s/transactions'
+  GET_TRANSACTIONS_WEB_SERVICE_URL: 'http://crypto-bot-wallets-api.crypto-bot-wallets.svc.cluster.local:8080/v1/transactions'
+
+
+
+

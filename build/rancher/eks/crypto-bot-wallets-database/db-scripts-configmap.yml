@@ -5,6 +5,7 @@ metadata:
   namespace: crypto-bot-database
   labels:
     app: crypto-bot-wallets-database
+    service: crypto-bot
 data:
   0_00_create_schema_wallet.sql: |
     CREATE SCHEMA IF NOT EXISTS wallet;

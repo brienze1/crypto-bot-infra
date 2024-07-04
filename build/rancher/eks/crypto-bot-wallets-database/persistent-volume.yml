@@ -1,14 +1,17 @@
 apiVersion: v1
-kind: PersistentVolumeClaim
+kind: PersistentVolume
 metadata:
   name: crypto-bot-wallets-database
   namespace: crypto-bot-database
   labels:
+    type: local
     app: crypto-bot-wallets-database
+    service: crypto-bot
 spec:
   storageClassName: manual
+  capacity:
+    storage: 1Gi
   accessModes:
     - ReadWriteMany
-  resources:
-    requests:
-      storage: 10Gi
+  hostPath:
+    path: /data/postgresql/wallets
