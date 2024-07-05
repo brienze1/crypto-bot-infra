@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: crypto-bot-accounts-api
-  namespace: crypto-bot-accounts
+  namespace: crypto-bot
   labels:
     app: crypto-bot-accounts-api
     service: crypto-bot

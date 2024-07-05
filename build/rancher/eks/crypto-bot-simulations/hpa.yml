@@ -2,7 +2,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: crypto-bot-simulations-api
-  namespace: crypto-bot-simulations
+  namespace: crypto-bot
   labels:
     app: crypto-bot-simulations-api
     service: crypto-bot

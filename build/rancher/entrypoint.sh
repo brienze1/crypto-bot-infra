@@ -47,3 +47,6 @@ rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-accounts --se
 
 echo "########### Deploying wallets api on rancher ###########"
 rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-wallets --server https://rancher
+
+echo "########### Deploying simulations api on rancher ###########"
+rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-simulations --server https://rancher

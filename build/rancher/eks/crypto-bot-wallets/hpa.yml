@@ -2,7 +2,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: crypto-bot-wallets-api
-  namespace: crypto-bot-wallets
+  namespace: crypto-bot
   labels:
     app: crypto-bot-wallets-api
     service: crypto-bot

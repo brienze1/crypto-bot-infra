@@ -135,7 +135,7 @@ data:
           - source_labels: [ __meta_kubernetes_service_name ]
             action: replace
             target_label: kubernetes_name
-      - job_name: go
+      - job_name: crypto-bot-apis
         honor_timestamps: true
         scrape_interval: 15s
         scrape_timeout: 10s
@@ -143,4 +143,6 @@ data:
         scheme: http
         static_configs:
           - targets:
-              - crypto-bot-accounts-api.crypto-bot-accounts.svc.cluster.local:8080
+              - crypto-bot-accounts-api.crypto-bot.svc.cluster.local:8080
+              - crypto-bot-wallets-api.crypto-bot.svc.cluster.local:8080
+              - crypto-bot-simulations-api.crypto-bot.svc.cluster.local:8080

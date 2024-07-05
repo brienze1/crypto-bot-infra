@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: crypto-bot-accounts-api
-  namespace: crypto-bot-accounts
+  namespace: crypto-bot
   labels:
     app: crypto-bot-accounts-api
     service: crypto-bot

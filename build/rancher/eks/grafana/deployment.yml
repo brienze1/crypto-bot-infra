@@ -54,15 +54,27 @@ spec:
             - configMapRef:
                 name: grafana
           volumeMounts:
-            - name: grafana-config-volume
+            - name: grafana-server-config-volume
               mountPath: /etc/grafana/provisioning/datasources
-            - mountPath: /var/lib/grafana
-              name: grafana-data
+            - name: grafana-dashboard-config-volume
+              mountPath: /etc/grafana/provisioning/dashboards
+            - name: grafana-dashboard-json-volume
+              mountPath: /var/lib/grafana/dashboards
+            - name: grafana-data
+              mountPath: /var/lib/grafana
       volumes:
-        - name: grafana-config-volume
+        - name: grafana-server-config-volume
           configMap:
             defaultMode: 420
             name: grafana-server-conf
+        - name: grafana-dashboard-config-volume
+          configMap:
+            defaultMode: 420
+            name: grafana-dashboard-conf
+        - name: grafana-dashboard-json-volume
+          configMap:
+            defaultMode: 420
+            name: grafana-dashboard-json
         - name: grafana-data
           persistentVolumeClaim:
             claimName: grafana
