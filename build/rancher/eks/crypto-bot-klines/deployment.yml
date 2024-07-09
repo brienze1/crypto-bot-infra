@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crypto-bot-klines-api
+  namespace: crypto-bot
+  labels:
+    app: crypto-bot-klines-api
+    service: crypto-bot
+spec:
+  selector:
+    matchLabels:
+      app: crypto-bot-klines-api
+      service: crypto-bot
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: crypto-bot-klines-api
+        service: crypto-bot
+    spec:
+      containers:
+        - name: crypto-bot-klines-api
+          image: lfbrienze/crypto-bot-klines:v1
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 5
+            failureThreshold: 5
+            successThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 5
+            failureThreshold: 5
+            successThreshold: 1
+          envFrom:
+            - configMapRef:
+                name: crypto-bot-klines-api
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "250m"

@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: klines-db-scripts-configmap
+  namespace: crypto-bot-database
+  labels:
+    app: crypto-bot-klines-database
+    service: crypto-bot
+data:
+  0_00_create_schema_wallet.sql: |
+    CREATE SCHEMA IF NOT EXISTS klines;
+  1_00_create_pgcrypto_extension.sql: |
+    SET SCHEMA 'klines';
+    
+    DROP EXTENSION IF EXISTS pgcrypto;
+    CREATE EXTENSION IF NOT EXISTS pgcrypto with schema klines;
+  1_01_create_uuid_extension.sql: |
+    SET SCHEMA 'klines';
+    
+    DROP EXTENSION IF EXISTS "uuid-ossp";
+    CREATE EXTENSION IF NOT EXISTS "uuid-ossp" with schema klines;
+  2_00_create_table_klines.sql: |
+    SET SCHEMA 'klines';
+        
+    CREATE TABLE klines
+    (
+        symbol                       varchar(10)    NOT NULL,
+        interval                     varchar(10)    NOT NULL,
+        open_time                    bigint         NOT NULL,
+        open                         numeric(19, 8) NOT NULL,
+        high                         numeric(19, 8) NOT NULL,
+        low                          numeric(19, 8) NOT NULL,
+        close                        numeric(19, 8) NOT NULL,
+        volume                       numeric(19, 8) NOT NULL,
+        close_time                   bigint         NOT NULL,
+        quote_asset_volume           numeric(19, 8) NOT NULL,
+        number_of_trades             integer        NOT NULL,
+        taker_buy_base_asset_volume  numeric(19, 8) NOT NULL,
+        taker_buy_quote_asset_volume numeric(19, 8) NOT NULL,
+        CONSTRAINT klines_pkey PRIMARY KEY (symbol, interval, open_time)
+    );

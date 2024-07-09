@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: crypto-bot-klines-api
+  namespace: crypto-bot
+  labels:
+    app: crypto-bot-klines-api
+    service: crypto-bot
+data:
+  # ===================== General =====================
+  ENV: 'prd'
+  LOG_LEVEL: 'debug'
+  SERVER_PORT: '8080'
+
+  # ================= Logs Config =================
+  SERVICE_NAME: 'crypto-bot-klines-api'
+
+  # =================== Datasource ===================
+  # Postgres - crypto_bot_klines
+  DB_HOST: 'crypto-bot-klines-database.crypto-bot-database.svc.cluster.local'
+  DB_PORT: '5432'
+  DB_NAME: 'crypto_bot_klines'
+  DB_USERNAME: 'crypto_bot_klines_user'
+  DB_PASSWORD: 'crypto_bot_klines_pass'
+  DB_SSL_MODE: 'disable'
+  DB_LOG_LEVEL: 'error'
+
+  # Redis
+  REDIS_HOST: 'crypto-bot-redis.crypto-bot-database.svc.cluster.local'
+  REDIS_PORT: '6379'
+
+  # ==================== Services ====================
+  AUTHORIZATION_WEB_SERVICE_URL: 'http://crypto-bot-accounts-api.crypto-bot.svc.cluster.local:8080/v1/authorize'
+  
+  # Binance
+  BINANCE_KLINE_HISTORICAL_DATA_URL: 'https://api.binance.com/api/v3/klines'
+
+
+
+
+

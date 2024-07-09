@@ -39,6 +39,9 @@ rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-accounts-data
 echo "########### Deploying wallets db on rancher ###########"
 rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-wallets-database --server https://rancher
 
+echo "########### Deploying klines db on rancher ###########"
+rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-klines-database --server https://rancher
+
 echo "########### Deploying redis on rancher ###########"
 rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-redis --server https://rancher
 
@@ -47,6 +50,9 @@ rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-accounts --se
 
 echo "########### Deploying wallets api on rancher ###########"
 rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-wallets --server https://rancher
+
+echo "########### Deploying klines api on rancher ###########"
+rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-klines --server https://rancher
 
 echo "########### Deploying simulations api on rancher ###########"
 rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-simulations --server https://rancher

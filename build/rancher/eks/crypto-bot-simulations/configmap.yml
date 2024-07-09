@@ -33,7 +33,7 @@ data:
   BINANCE_COMMISSION_PERCENTAGE: '0.001'
 
   # ==================== Services ====================
-  BINANCE_KLINE_HISTORICAL_DATA_URL: 'https://api.binance.com/api/v3/klines'
+  BINANCE_KLINE_HISTORICAL_DATA_URL: 'http://crypto-bot-klines-api.crypto-bot.svc.cluster.local:8080/v1/klines'
   BINANCE_TRANSFERS_HISTORICAL_DATA_URL: 'https://api.binance.com/api/v3/aggTrades'
 
   AUTHORIZATION_WEB_SERVICE_URL: 'http://crypto-bot-accounts-api.crypto-bot.svc.cluster.local:8080/v1/authorize'

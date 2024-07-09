@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crypto-bot-klines-database
+  namespace: crypto-bot-database
+  labels:
+    app: crypto-bot-klines-database
+    service: crypto-bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crypto-bot-klines-database
+      service: crypto-bot
+  template:
+    metadata:
+      labels:
+        app: crypto-bot-klines-database
+        service: crypto-bot
+    spec:
+      containers:
+        - name: crypto-bot-klines-database
+          image: postgres:16
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: crypto-bot-klines-database
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-data
+            - mountPath: /docker-entrypoint-initdb.d
+              name: db-scripts
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "250m"
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: crypto-bot-klines-database
+        - name: db-scripts
+          configMap:
+            name: klines-db-scripts-configmap
