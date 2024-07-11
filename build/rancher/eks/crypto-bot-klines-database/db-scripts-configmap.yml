@@ -7,7 +7,7 @@ metadata:
     app: crypto-bot-klines-database
     service: crypto-bot
 data:
-  0_00_create_schema_wallet.sql: |
+  0_00_create_schema_klines.sql: |
     CREATE SCHEMA IF NOT EXISTS klines;
   1_00_create_pgcrypto_extension.sql: |
     SET SCHEMA 'klines';

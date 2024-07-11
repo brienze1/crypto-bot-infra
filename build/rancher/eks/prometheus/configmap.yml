@@ -146,3 +146,4 @@ data:
               - crypto-bot-accounts-api.crypto-bot.svc.cluster.local:8080
               - crypto-bot-wallets-api.crypto-bot.svc.cluster.local:8080
               - crypto-bot-simulations-api.crypto-bot.svc.cluster.local:8080
+              - crypto-bot-klines-api.crypto-bot.svc.cluster.local:8080

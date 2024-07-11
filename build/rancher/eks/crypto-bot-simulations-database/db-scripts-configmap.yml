@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: simulations-db-scripts-configmap
+  namespace: crypto-bot-database
+  labels:
+    app: crypto-bot-simulations-database
+    service: crypto-bot
+data:
+  0_00_create_schema_bot.sql: |
+    CREATE SCHEMA IF NOT EXISTS bot;
+  1_00_create_pgcrypto_extension.sql: |
+    SET SCHEMA 'bot';
+    
+    DROP EXTENSION IF EXISTS pgcrypto;
+    CREATE EXTENSION IF NOT EXISTS pgcrypto with schema bot;
+  1_01_create_uuid_extension.sql: |
+    SET SCHEMA 'bot';
+    
+    DROP EXTENSION IF EXISTS "uuid-ossp";
+    CREATE EXTENSION IF NOT EXISTS "uuid-ossp" with schema bot;
+  2_00_create_table_bot_info.sql: |
+    SET SCHEMA 'bot';
+
+    CREATE TABLE bot_info
+    (
+        id           uuid        NOT NULL DEFAULT uuid_generate_v4(),
+        account_id   uuid        NOT NULL,
+        wallet_id    uuid        NOT NULL,
+        partition_id uuid,
+        status       varchar     NOT NULL,
+        created_at   timestamptz NOT NULL DEFAULT NOW(),
+        updated_at   timestamptz NOT NULL DEFAULT NOW(),
+        CONSTRAINT bot_info_pkey PRIMARY KEY (id)
+    );
+  2_01_create_table_bot_configuration.sql: |
+    SET SCHEMA 'bot';
+
+    CREATE TABLE bot_configuration
+    (
+        id                                     uuid           NOT NULL DEFAULT uuid_generate_v4(),
+        bot_id                                 uuid           NOT NULL,
+        base_symbol                            varchar        NOT NULL,
+        quote_symbol                           varchar        NOT NULL,
+        start_time_offset                      bigint,
+        start_time_unit                        varchar,
+        runtime_duration                       bigint         NOT NULL,
+        runtime_unit                           varchar        NOT NULL,
+        interval                               varchar        NOT NULL,
+        strategy_name                          varchar        NOT NULL,
+        mode                                   varchar        NOT NULL,
+        warm_up_offset                         bigint,
+        warm_up_unit                           varchar,
+        initial_balance_amount                 numeric(19, 8) NOT NULL,
+        stop_loss_percentage_value             decimal,
+        transaction_stop_loss_percentage_value decimal,
+        created_at                             timestamptz    NOT NULL DEFAULT NOW(),
+        updated_at                             timestamptz    NOT NULL DEFAULT NOW(),
+        CONSTRAINT bot_configuration_pkey PRIMARY KEY (id),
+        CONSTRAINT bot_id_fkey FOREIGN KEY (bot_id) REFERENCES bot.bot_info (id)
+    );
