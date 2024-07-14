@@ -47,6 +47,8 @@ data:
         start_time_unit                        varchar,
         runtime_duration                       bigint         NOT NULL,
         runtime_unit                           varchar        NOT NULL,
+        simulation_start                       bigint,
+        simulation_end                         bigint,
         interval                               varchar        NOT NULL,
         strategy_name                          varchar        NOT NULL,
         mode                                   varchar        NOT NULL,
