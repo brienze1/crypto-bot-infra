@@ -36,9 +36,9 @@ services:
     depends_on:
       - rancher
     container_name: rancher-cli
-    build:
-      dockerfile: ./rancher/rancher-arm.Dockerfile
-    image: lfbrienze/rancher-cli
+#    build:
+#      dockerfile: ./rancher/rancher-arm.Dockerfile
+    image: lfbrienze/rancher-cli:v1
     volumes:
       - ./rancher/entrypoint.sh:/init-scripts/rancher-cli/entrypoint.sh
       - ./rancher/eks:/init-scripts/rancher-cli/eks

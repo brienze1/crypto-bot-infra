@@ -24,13 +24,14 @@ data:
 
     CREATE TABLE bot_info
     (
-        id           uuid        NOT NULL DEFAULT uuid_generate_v4(),
-        account_id   uuid        NOT NULL,
-        wallet_id    uuid        NOT NULL,
-        partition_id uuid,
-        status       varchar     NOT NULL,
-        created_at   timestamptz NOT NULL DEFAULT NOW(),
-        updated_at   timestamptz NOT NULL DEFAULT NOW(),
+        id            uuid        NOT NULL DEFAULT uuid_generate_v4(),
+        account_id    uuid        NOT NULL,
+        wallet_id     uuid        NOT NULL,
+        partition_id  uuid,
+        status        varchar     NOT NULL,
+        error_message varchar,
+        created_at    timestamptz NOT NULL DEFAULT NOW(),
+        updated_at    timestamptz NOT NULL DEFAULT NOW(),
         CONSTRAINT bot_info_pkey PRIMARY KEY (id)
     );
   2_01_create_table_bot_configuration.sql: |
@@ -57,5 +58,22 @@ data:
         created_at                             timestamptz    NOT NULL DEFAULT NOW(),
         updated_at                             timestamptz    NOT NULL DEFAULT NOW(),
         CONSTRAINT bot_configuration_pkey PRIMARY KEY (id),
+        CONSTRAINT bot_id_fkey FOREIGN KEY (bot_id) REFERENCES bot.bot_info (id)
+    );
+  2_01_create_table_indicators.sql: |
+    SET SCHEMA 'bot';
+    
+    CREATE TABLE indicators
+    (
+        id         uuid           NOT NULL DEFAULT uuid_generate_v4(),
+        bot_id     uuid           NOT NULL,
+        name       varchar        NOT NULL,
+        type       varchar        NOT NULL,
+        value      numeric(19, 8) NOT NULL,
+        result     varchar        NOT NULL,
+        timestamp  bigint         NOT NULL,
+        created_at timestamptz    NOT NULL DEFAULT NOW(),
+        updated_at timestamptz    NOT NULL DEFAULT NOW(),
+        CONSTRAINT indicators_pkey PRIMARY KEY (id),
         CONSTRAINT bot_id_fkey FOREIGN KEY (bot_id) REFERENCES bot.bot_info (id)
     );

@@ -12,8 +12,8 @@ data:
   LOG_LEVEL: 'debug'
   SERVER_PORT: '8080'
   PROMETHEUS: 'true'
-  PROFILER: 'true'
-  PERIODIC_GC: 'true'
+  PROFILER: 'false'
+  PERIODIC_GC: 'false'
 
   # ================= Logs Config =================
   SERVICE_NAME: 'crypto-bot-klines-api'
