@@ -26,11 +26,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '3'
+          cpus: '4'
           memory: '8G'
         reservations:
-          cpus: '1'
-          memory: '4G'
+          cpus: '2'
+          memory: '6G'
 
   rancher-cli:
     depends_on:
