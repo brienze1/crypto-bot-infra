@@ -37,8 +37,12 @@ data:
   
   # Binance
   BINANCE_KLINE_HISTORICAL_DATA_URL: 'https://api.binance.com/api/v3/klines'
+  BINANCE_EXCHANGE_INFO_URL: 'https://api.binance.com/api/v3/exchangeInfo'
 
+  # CoinGecko
+  COINGECKO_TRENDING_URL: 'https://api.coingecko.com/api/v3/search/trending'
 
-
+  # CoinPaprika
+  COINPAPRIKA_RESULTS_URL: 'https://api.coinpaprika.com/v1/tickers'
 
 
