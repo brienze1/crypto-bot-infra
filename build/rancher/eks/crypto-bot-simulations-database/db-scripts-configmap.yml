@@ -41,8 +41,8 @@ data:
     (
         id                                     uuid           NOT NULL DEFAULT uuid_generate_v4(),
         bot_id                                 uuid           NOT NULL,
-        base_symbol                            varchar        NOT NULL,
-        quote_symbol                           varchar        NOT NULL,
+        base_symbol                            varchar(30)    NOT NULL,
+        quote_symbol                           varchar(30)    NOT NULL,
         start_time_offset                      bigint,
         start_time_unit                        varchar,
         runtime_duration                       bigint         NOT NULL,

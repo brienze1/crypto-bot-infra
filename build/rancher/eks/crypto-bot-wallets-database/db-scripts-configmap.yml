@@ -40,7 +40,7 @@ data:
         id                uuid           NOT NULL DEFAULT uuid_generate_v4(),
         account_id        uuid           NOT NULL,
         wallet_id         uuid           NOT NULL,
-        currency          varchar(5)     NOT NULL,
+        currency          varchar(30)    NOT NULL,
         total_balance     numeric(19, 8) NOT NULL,
         available_balance numeric(19, 8) NOT NULL,
         created_at        timestamptz    NOT NULL DEFAULT NOW(),
@@ -50,7 +50,7 @@ data:
     );
   2_02_create_table_partition.sql: |
     SET SCHEMA 'wallet';
-            
+    
     CREATE TABLE partition
     (
         id               uuid           NOT NULL DEFAULT uuid_generate_v4(),
@@ -59,8 +59,8 @@ data:
         sub_wallet_id    uuid           NOT NULL,
         bot_id           uuid           NOT NULL,
         balance          numeric(19, 8) NOT NULL,
-        base             varchar(5)     NOT NULL,
-        quote            varchar(5)     NOT NULL,
+        base             varchar(30)    NOT NULL,
+        quote            varchar(30)    NOT NULL,
         created_at       timestamptz    NOT NULL DEFAULT NOW(),
         updated_at       timestamptz    NOT NULL DEFAULT NOW(),
         deleted_at       timestamptz NULL,
@@ -70,7 +70,7 @@ data:
     );
   2_03_create_table_transaction.sql: |
     SET SCHEMA 'wallet';
-            
+    
     CREATE TABLE transaction
     (
         id               uuid           NOT NULL DEFAULT uuid_generate_v4(),
@@ -79,8 +79,8 @@ data:
         partition_id     uuid           NOT NULL,
         bot_id           uuid           NOT NULL,
         type             varchar        NOT NULL,
-        base             varchar        NOT NULL,
-        quote            varchar        NOT NULL,
+        base             varchar(30)    NOT NULL,
+        quote            varchar(30)    NOT NULL,
         status           varchar        NOT NULL,
         base_amount      numeric(19, 8) NOT NULL,
         quote_amount     numeric(19, 8) NULL,

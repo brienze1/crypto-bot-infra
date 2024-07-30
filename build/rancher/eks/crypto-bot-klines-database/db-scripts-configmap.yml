@@ -21,10 +21,10 @@ data:
     CREATE EXTENSION IF NOT EXISTS "uuid-ossp" with schema klines;
   2_00_create_table_klines.sql: |
     SET SCHEMA 'klines';
-        
+    
     CREATE TABLE klines
     (
-        symbol                       varchar(10)    NOT NULL,
+        symbol                       varchar(60)    NOT NULL,
         interval                     varchar(10)    NOT NULL,
         open_time                    bigint         NOT NULL,
         open                         numeric(19, 8) NOT NULL,
