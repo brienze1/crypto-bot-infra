@@ -1,26 +1,26 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: klines-db-scripts-configmap
+  name: data-db-scripts-configmap
   namespace: crypto-bot-database
   labels:
-    app: crypto-bot-klines-database
+    app: crypto-bot-data-database
     service: crypto-bot
 data:
-  0_00_create_schema_klines.sql: |
-    CREATE SCHEMA IF NOT EXISTS klines;
+  0_00_create_schema_data.sql: |
+    CREATE SCHEMA IF NOT EXISTS data;
   1_00_create_pgcrypto_extension.sql: |
-    SET SCHEMA 'klines';
+    SET SCHEMA 'data';
     
     DROP EXTENSION IF EXISTS pgcrypto;
-    CREATE EXTENSION IF NOT EXISTS pgcrypto with schema klines;
+    CREATE EXTENSION IF NOT EXISTS pgcrypto with schema data;
   1_01_create_uuid_extension.sql: |
-    SET SCHEMA 'klines';
+    SET SCHEMA 'data';
     
     DROP EXTENSION IF EXISTS "uuid-ossp";
-    CREATE EXTENSION IF NOT EXISTS "uuid-ossp" with schema klines;
+    CREATE EXTENSION IF NOT EXISTS "uuid-ossp" with schema data;
   2_00_create_table_klines.sql: |
-    SET SCHEMA 'klines';
+    SET SCHEMA 'data';
     
     CREATE TABLE klines
     (

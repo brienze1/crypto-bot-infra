@@ -1,16 +1,16 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: crypto-bot-klines-api
+  name: crypto-bot-data-api
   namespace: crypto-bot
   labels:
-    app: crypto-bot-klines-api
+    app: crypto-bot-data-api
     service: crypto-bot
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: crypto-bot-klines-api
+    name: crypto-bot-data-api
   minReplicas: 1
   maxReplicas: 1
   metrics:

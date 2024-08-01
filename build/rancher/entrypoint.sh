@@ -27,6 +27,7 @@ rancher kubectl create clusterrolebinding cluster-system-anonymous --clusterrole
 echo "########### Deploying kube-state-metrics server ###########"
 rancher kubectl create -f /init-scripts/rancher-cli/eks/kube-state-metrics --server https://rancher
 
+sleep 5
 echo "########### Deploying prometheus server ###########"
 rancher kubectl create -f /init-scripts/rancher-cli/eks/prometheus --server https://rancher
 
@@ -42,8 +43,8 @@ rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-wallets-datab
 echo "########### Deploying simulations db on rancher ###########"
 rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-simulations-database --server https://rancher
 
-echo "########### Deploying klines db on rancher ###########"
-rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-klines-database --server https://rancher
+echo "########### Deploying data db on rancher ###########"
+rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-data-database --server https://rancher
 
 echo "########### Deploying redis on rancher ###########"
 rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-redis --server https://rancher
@@ -54,8 +55,8 @@ rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-accounts --se
 echo "########### Deploying wallets api on rancher ###########"
 rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-wallets --server https://rancher
 
-echo "########### Deploying klines api on rancher ###########"
-rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-klines --server https://rancher
+echo "########### Deploying data api on rancher ###########"
+rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-data --server https://rancher
 
 echo "########### Deploying simulations api on rancher ###########"
 rancher kubectl create -f /init-scripts/rancher-cli/eks/crypto-bot-simulations --server https://rancher
