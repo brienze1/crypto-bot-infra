@@ -79,3 +79,20 @@ data:
         CONSTRAINT indicators_pkey PRIMARY KEY (id),
         CONSTRAINT bot_id_fkey FOREIGN KEY (bot_id) REFERENCES bot.bot_info (id)
     );
+  2_01_create_table_results.sql: |
+    SET SCHEMA 'bot';
+
+    CREATE TABLE results
+    (
+        id          uuid          NOT NULL DEFAULT uuid_generate_v4(),
+        bot_id      uuid          NOT NULL,
+        metric      varchar       NOT NULL,
+        value       numeric(6, 3) NOT NULL,
+        weight      numeric(6, 3) NOT NULL,
+        score       numeric(6, 3) NOT NULL,
+        description varchar       NOT NULL,
+        created_at  timestamptz   NOT NULL DEFAULT NOW(),
+        updated_at  timestamptz   NOT NULL DEFAULT NOW(),
+        CONSTRAINT results_pkey PRIMARY KEY (id),
+        CONSTRAINT bot_id_fkey FOREIGN KEY (bot_id) REFERENCES bot.bot_info (id)
+    );
