@@ -29,6 +29,7 @@ data:
         wallet_id     uuid        NOT NULL,
         partition_id  uuid,
         status        varchar     NOT NULL,
+        score         decimal(7, 4) NULL,
         error_message varchar,
         created_at    timestamptz NOT NULL DEFAULT NOW(),
         updated_at    timestamptz NOT NULL DEFAULT NOW(),
