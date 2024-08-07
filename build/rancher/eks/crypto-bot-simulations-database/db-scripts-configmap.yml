@@ -52,6 +52,7 @@ data:
         simulation_end                         bigint,
         interval                               varchar        NOT NULL,
         strategy_name                          varchar        NOT NULL,
+        indicators                             varchar NULL,
         mode                                   varchar        NOT NULL,
         warm_up_offset                         bigint,
         warm_up_unit                           varchar,
