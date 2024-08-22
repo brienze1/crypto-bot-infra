@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# RANCHER 1
 echo "########### Waiting rancher to become healthy ###########"
 until curl http://rancher -s; do
   sleep 5
