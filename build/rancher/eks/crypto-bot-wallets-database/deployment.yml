@@ -35,10 +35,10 @@ spec:
           resources:
             requests:
               memory: "128Mi"
-              cpu: "250m"
+              cpu: "0.75"
             limits:
               memory: "128Mi"
-              cpu: "250m"
+              cpu: "0.75"
       volumes:
         - name: postgres-data
           persistentVolumeClaim:

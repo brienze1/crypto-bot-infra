@@ -7,7 +7,9 @@ metadata:
     app: crypto-bot-simulations-database
     service: crypto-bot
 data:
-  0_00_create_schema_bot.sql: |
+  0_00_update_max_cons.sql: |
+    ALTER SYSTEM SET max_connections = 500;
+  0_01_create_schema_bot.sql: |
     CREATE SCHEMA IF NOT EXISTS bot;
   1_00_create_pgcrypto_extension.sql: |
     SET SCHEMA 'bot';

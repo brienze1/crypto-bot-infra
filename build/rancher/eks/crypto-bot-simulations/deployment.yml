@@ -49,9 +49,9 @@ spec:
                 name: crypto-bot-simulations-api
           resources:
             requests:
-              memory: "128Mi"
-              cpu: "250m"
+              memory: "1Gi"
+              cpu: "700m"
             limits:
-              memory: "128Mi"
-              cpu: "250m"
+              memory: "1Gi"
+              cpu: "700m"
       terminationGracePeriodSeconds: 10
